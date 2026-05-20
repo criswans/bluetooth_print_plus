@@ -114,7 +114,7 @@ class CommandTool {
         content: "hello flutter",
         alignment: Alignment.center,
         style: EscTextStyle.underline,
-        fontSize: EscFontSize.size3);
+        fontSize: EscFontSize.large);
     await escCommand.newline();
     await escCommand.code128(content: "123456");
     await escCommand.newline();

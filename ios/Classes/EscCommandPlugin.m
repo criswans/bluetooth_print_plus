@@ -37,43 +37,34 @@
         int printMode = [[argumentsDict valueForKey:@"printMode"] intValue];
         int size = [[argumentsDict valueForKey:@"size"] intValue];
         int charcterSize = 0;
+        // Support only 3 levels from Flutter:
+        // size=0 (default), size=1 (small), size=2 (large)
+
         switch (size) {
             case 0:
                 charcterSize = 0;
                 break;
             case 1:
+                // small
                 charcterSize = 0x12;
                 break;
             case 2:
+                // large
                 charcterSize = 0x22;
-                break;
-            case 3:
-                charcterSize = 0x33;
-                break;
-            case 4:
-                charcterSize = 0x44;
-                break;
-            case 5:
-                charcterSize = 0x55;
-                break;
-            case 6:
-                charcterSize = 0x666;
-                break;
-            case 7:
-                charcterSize = 0x77;
                 break;
             default:
                 charcterSize = 0;
                 break;
         }
+
         [self.escCommand addSetJustification:alignment];
         [self.escCommand addPrintMode:printMode];
         [self.escCommand addSetCharcterSize:charcterSize];
         [self.escCommand addText:content];
-        
-        [self.escCommand addPrintMode:0];
-        [self.escCommand addSetCharcterSize:0];
+
+        // Do NOT reset charcter size / print mode here; keep requested size effect.
         result(@(YES));
+
     } else if ([@"code128" isEqualToString:call.method]) {
         [self.escCommand addSetJustification:alignment];
         int hri = [[argumentsDict valueForKey:@"hri"] intValue];

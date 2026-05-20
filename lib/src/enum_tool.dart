@@ -26,14 +26,14 @@ enum EscTextStyle { default_, bold, underline, boldAndUnderline }
 /// EscFontSize
 enum EscFontSize {
   default_,
-  size1,
-  size2,
-  size3,
-  size4,
-  size5,
-  size6,
-  size7,
+  
+  /// Small / slightly smaller than default
+  small,
+
+  /// Large / larger than default
+  large,
 }
+
 
 /// HriPosition
 enum HriPosition { none, above, below, aboveAndBelow }
@@ -100,22 +100,13 @@ class EnumTool {
     switch (size) {
       case EscFontSize.default_:
         return 0;
-      case EscFontSize.size1:
+      case EscFontSize.small:
         return 1;
-      case EscFontSize.size2:
+      case EscFontSize.large:
         return 2;
-      case EscFontSize.size3:
-        return 3;
-      case EscFontSize.size4:
-        return 4;
-      case EscFontSize.size5:
-        return 5;
-      case EscFontSize.size6:
-        return 6;
-      case EscFontSize.size7:
-        return 7;
     }
   }
+
 
   /// getHri
   static int getHri(HriPosition position) {

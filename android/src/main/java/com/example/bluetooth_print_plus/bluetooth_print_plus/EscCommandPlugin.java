@@ -98,8 +98,30 @@ public class EscCommandPlugin implements FlutterPlugin, MethodCallHandler, Reque
                 assert printMode != null;
                 assert size != null;
                 this.getEscCommand().addSelectJustification(align);
-                this.getEscCommand().addSetCharcterSize(EscCommand.WIDTH_ZOOM.valueOf("MUL_" + (size + 1)), EscCommand.HEIGHT_ZOOM.valueOf("MUL_" + (size + 1)));
+
+                // Support only 3 levels from Flutter:
+                // size=0 (default), size=1 (small), size=2 (large)
+                // Android mapping uses zoom multiplier: MUL_1.. etc.
+                int mul = 1;
+                switch (size) {
+                    case 0:
+                        mul = 1;
+                        break;
+                    case 1:
+                        mul = 2;
+                        break;
+                    case 2:
+                        mul = 4;
+                        break;
+                    default:
+                        mul = 1;
+                        break;
+                }
+                this.getEscCommand().addSetCharcterSize(EscCommand.WIDTH_ZOOM.valueOf("MUL_" + mul),
+                        EscCommand.HEIGHT_ZOOM.valueOf("MUL_" + mul));
+
                 switch (printMode) {
+
                     case 0x08:
                         this.getEscCommand().addSelectPrintModes(EscCommand.FONT.FONTA, EscCommand.ENABLE.ON, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF);
                         break;
