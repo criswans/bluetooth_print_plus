@@ -123,6 +123,27 @@ public class EscCommandPlugin implements FlutterPlugin, MethodCallHandler, Reque
                 }
                 this.getEscCommand().addSetCharcterSize(wZoom, hZoom);
 
+                // Some 58mm ESC/POS printers ignore/normalize ESC character-size changes.
+                // Add an extra emphasis/double-strike so small/large become visibly different.
+                // - size=1 (small): emphasized ON
+                // - size=2 (large): double-strike ON
+                // - size=0 (default): both OFF
+                switch (size) {
+                    case 1:
+                        this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.ON);
+                        this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.OFF);
+                        break;
+                    case 2:
+                        this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.OFF);
+                        this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.ON);
+                        break;
+                    case 0:
+                    default:
+                        this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.OFF);
+                        this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.OFF);
+                        break;
+                }
+
                 switch (printMode) {
 
                     case 0x08:
