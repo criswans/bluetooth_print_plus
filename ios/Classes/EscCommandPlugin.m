@@ -37,8 +37,8 @@
         int printMode = [[argumentsDict valueForKey:@"printMode"] intValue];
         int size = [[argumentsDict valueForKey:@"size"] intValue];
         int charcterSize = 0;
-        // Support only 3 levels from Flutter:
-        // size=0 (default), size=1 (small), size=2 (large)
+        // Flutter mapping:
+        // 0 = default, 1 = small, 2 = medium, 3 = big, 4 = bigThin
 
         switch (size) {
             case 0:
@@ -49,8 +49,16 @@
                 charcterSize = 0x12;
                 break;
             case 2:
-                // large
+                // medium
                 charcterSize = 0x22;
+                break;
+            case 3:
+                // big
+                charcterSize = 0x33;
+                break;
+            case 4:
+                // bigThin
+                charcterSize = 0x44;
                 break;
             default:
                 charcterSize = 0;
@@ -58,6 +66,7 @@
         }
 
         [self.escCommand addSetJustification:alignment];
+
         [self.escCommand addPrintMode:printMode];
         [self.escCommand addSetCharcterSize:charcterSize];
         [self.escCommand addText:content];

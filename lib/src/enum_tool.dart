@@ -26,13 +26,20 @@ enum EscTextStyle { default_, bold, underline, boldAndUnderline }
 /// EscFontSize
 enum EscFontSize {
   default_,
-  
+
   /// Small / slightly smaller than default
   small,
 
-  /// Large / larger than default
-  large,
+  /// Medium / normal bigger than small
+  medium,
+
+  /// Big / largest (bold-like)
+  big,
+
+  /// Big thin / big but thinner than [big]
+  bigThin,
 }
+
 
 
 /// HriPosition
@@ -97,15 +104,22 @@ class EnumTool {
 
   /// getEscFontSize
   static int getEscFontSize(EscFontSize size) {
+    // Native side expects integer mapping:
+    // 0 = default, 1 = small, 2 = medium, 3 = big, 4 = bigThin
     switch (size) {
       case EscFontSize.default_:
         return 0;
       case EscFontSize.small:
         return 1;
-      case EscFontSize.large:
+      case EscFontSize.medium:
         return 2;
+      case EscFontSize.big:
+        return 3;
+      case EscFontSize.bigThin:
+        return 4;
     }
   }
+
 
 
   /// getHri

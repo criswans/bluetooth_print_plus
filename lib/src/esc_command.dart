@@ -33,10 +33,13 @@ class EscCommand {
   ///   - alignment: The alignment of the text. Defaults to [Alignment.left].
   ///   - style: The style of the text. Can be normal, bold, underline, or
   ///     both bold and underline. Defaults to [EscTextStyle.default_].
-  ///   - fontSize: The font size of the text. Support 3 levels:
+  ///   - fontSize: The font size of the text. Support 5 levels:
   ///     - default: [EscFontSize.default_]
   ///     - small: [EscFontSize.small]
-  ///     - large: [EscFontSize.large]
+  ///     - medium: [EscFontSize.medium]
+  ///     - big: [EscFontSize.big]
+  ///     - bigThin: [EscFontSize.bigThin]
+
 
   ///
   /// - Returns: A [Future] that completes when the command has been sent.
@@ -45,6 +48,7 @@ class EscCommand {
       Alignment alignment = Alignment.left,
       EscTextStyle style = EscTextStyle.default_,
       EscFontSize fontSize = EscFontSize.default_}) async {
+
     int printMode = EnumTool.getEscTextStyle(style);
     int size = EnumTool.getEscFontSize(fontSize);
     int align = EnumTool.getAlignment(alignment);

@@ -99,51 +99,55 @@ public class EscCommandPlugin implements FlutterPlugin, MethodCallHandler, Reque
                 assert size != null;
                 this.getEscCommand().addSelectJustification(align);
 
-                // Support only 3 levels from Flutter:
-                // size=0 (default), size=1 (small), size=2 (large)
+                // Flutter mapping:
+                // 0 = default, 1 = small, 2 = medium, 3 = big, 4 = bigThin
                 // Android mapping uses zoom multiplier: MUL_1.. etc.
-                // Map size levels from Flutter (default/small/large) -> printer ESC double size multipliers.
-                // Using explicit mapping avoids any SDK differences.
                 EscCommand.WIDTH_ZOOM wZoom;
                 EscCommand.HEIGHT_ZOOM hZoom;
                 switch (size) {
-                    case 1: // small
-                        wZoom = EscCommand.WIDTH_ZOOM.MUL_2;
-                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_2;
-                        break;
-                    case 2: // large
-                        wZoom = EscCommand.WIDTH_ZOOM.MUL_4;
-                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_4;
-                        break;
                     case 0: // default
                     default:
                         wZoom = EscCommand.WIDTH_ZOOM.MUL_1;
                         hZoom = EscCommand.HEIGHT_ZOOM.MUL_1;
                         break;
+                    case 1: // small
+                        wZoom = EscCommand.WIDTH_ZOOM.MUL_2;
+                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_2;
+                        break;
+                    case 2: // medium
+                        wZoom = EscCommand.WIDTH_ZOOM.MUL_3;
+                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_3;
+                        break;
+                    case 3: // big
+                        wZoom = EscCommand.WIDTH_ZOOM.MUL_4;
+                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_4;
+                        break;
+                    case 4: // bigThin
+                        wZoom = EscCommand.WIDTH_ZOOM.MUL_4;
+                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_4;
+                        break;
                 }
                 this.getEscCommand().addSetCharcterSize(wZoom, hZoom);
 
-                // Some 58mm ESC/POS printers ignore/normalize ESC character-size changes.
-                // We emulate 3 visual weights using emphasis/double-strike:
-                // - size=0 (default): normal (default small)
-                // - size=1 (large): large & bold (double-strike)
-                // - size=2 (thin): large but a bit thinner (large without double-strike)
-                // Note: mapping requested by user for iware 58II.
+                // Emulate 3-ish visual weights (some printers normalize ESC size).
+                // - big (3) => double strike ON
+                // - bigThin (4) => keep normal (no double strike)
+                // - medium (2) => keep normal
                 switch (size) {
+                    case 3: // big
+                        this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.OFF);
+                        this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.ON);
+                        break;
                     case 0:
+                    case 1:
+                    case 2:
+                    case 4:
                     default:
                         this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.OFF);
                         this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.OFF);
                         break;
-                    case 1: // large
-                        this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.OFF);
-                        this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.ON);
-                        break;
-                    case 2: // large-thin
-                        this.getEscCommand().addTurnEmphasizedModeOnOrOff(EscCommand.ENABLE.OFF);
-                        this.getEscCommand().addTurnDoubleStrikeOnOrOff(EscCommand.ENABLE.OFF);
-                        break;
                 }
+
 
                 switch (printMode) {
 
