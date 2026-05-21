@@ -36,7 +36,7 @@ enum EscFontSize {
   /// Big / largest (bold-like)
   big,
 
-  /// Big thin / big but thinner than [big]
+  /// Big thin / same height/width as [big] but thinner (no double strike/emphasis)
   bigThin,
 }
 
