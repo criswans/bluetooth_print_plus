@@ -123,8 +123,9 @@ public class EscCommandPlugin implements FlutterPlugin, MethodCallHandler, Reque
                         hZoom = EscCommand.HEIGHT_ZOOM.MUL_4;
                         break;
                     case 4: // bigThin
-                        wZoom = EscCommand.WIDTH_ZOOM.MUL_2;
-                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_2;
+                        // "gepeng" effect: keep height similar to big, but reduce width slightly
+                        wZoom = EscCommand.WIDTH_ZOOM.MUL_3;
+                        hZoom = EscCommand.HEIGHT_ZOOM.MUL_4;
                         break;
                 }
                 this.getEscCommand().addSetCharcterSize(wZoom, hZoom);
